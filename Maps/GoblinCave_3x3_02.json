@@ -1,0 +1,12 @@
+﻿{
+  "gameName": [ "GoblinCave_3x3_02_N_P", "GoblinCave_3x3_02_HR_P" ],
+  "x": 442,
+  "y": 442,
+  "scale": 1.0,
+  "mapLayers": [
+    {
+      "minHeight": -100,
+      "filename": "Maps\\GoblinCave_3x3_02.png"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "gameName": [ "IceCavern_01_N_P", "IceCavern_01_HR_P" ],
+  "x": 1024,
+  "y": 1024,
+  "scale": 1.28,
+  "mapLayers": [
+    {
+      "minHeight": -100,
+      "filename": "Maps\\IceCavern_01.png"
+    }
+  ]
+}

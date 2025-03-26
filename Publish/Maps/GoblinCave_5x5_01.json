@@ -1,0 +1,12 @@
+﻿ {
+  "gameName": [ "GoblinCave_5x5_01_N_P", "GoblinCave_5x5_01_HR_P" ],
+  "x": 1024,
+  "y": 1024,
+  "scale": 1.28,
+  "mapLayers": [
+    {
+      "minHeight": -100,
+      "filename": "Maps\\GoblinCave_5x5_01.png"
+    }
+  ]
+}

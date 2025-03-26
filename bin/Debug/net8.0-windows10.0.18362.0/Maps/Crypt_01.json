@@ -1,0 +1,12 @@
+﻿{
+  "gameName": [ "Crypt_01_N_P", "Crypt_01_HR_P" ],
+  "x": 1024,
+  "y": 1024,
+  "scale": 1.28,
+  "mapLayers": [
+    {
+      "minHeight": -100000,
+      "filename": "Maps\\Crypt_01.png"
+    }
+  ]
+}
