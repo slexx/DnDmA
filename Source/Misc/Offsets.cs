@@ -45,14 +45,14 @@ namespace DMAW_DND
         {
             public const int SkeletalMeshComponent = 0x320;
             public const int ComponentToWorld = 0x240;
-            public const int AccountID = 0x798; //fString
+            public const int AccountID = 0x7C8; //fString  DungeonCrawler.DCCharacterBase
             public const int NickNameCached = 0x858; //fNickname
-            public const int MeshDeformerInstance = 0x5B8;
-            public const int RootComponent = 0x1A0;
+            public const int MeshDeformerInstance = 0x5F0; //Engine.SkinnedMeshComponent
+            public const int RootComponent = 0x1A0; //Engine.Actor
             public const int PlayerController = 0x2D0;
-            public const int AbilitySystemComponent = 0x710;
-            public const int AccountDataReplication = 0x7B8;
-            public const int EquipmentInventory = 0xBD8;
+            public const int AbilitySystemComponent = 0x728; //DungeonCrawler.DCCharacterBase
+            public const int AccountDataReplication = 0x7E8; //DungeonCrawler.DCCharacterBase
+            public const int EquipmentInventory = 0xFAB;
             public const int SpawnedAttributes = 0x10A0;
         }
         public class RootComponent
