@@ -11,24 +11,24 @@ namespace DMAW_DND
 {
     internal static class Offsets
     {
-        public const int GWorld = 0x9A91A98;
-        public const int GNames = 0x987A880;
-        public const int GameStateBase = 0x158;
-        public const int PlayerArray = 0x2B0;
-        public const int LevelsArray = 0x170;
-        public const int ActorsArray = 0x98;
-        public const int OwningGameInstance = 0x1B8;
-        public const int LocalPlayers = 0x38;
-        public const int PlayerController = 0x30;
-        public const int PlayerCameraManager = 0x350;
-        //public const int PlayerMinimalViewInfo = 0x22B0;
-        public const int PlayerMinimalViewInfo = 0x1320;
-        public const int PlayerHUD = 0x348;
+        public const int GWorld = 0x9AE0B58; //updated
+        public const int GNames = 0x98C9940; //updated
+        public const int GameStateBase = 0x158; //Engine.World
+        public const int PlayerArray = 0x2B0; //Engine.GameStateBase
+        public const int LevelsArray = 0x170;  //Engine.World
+        public const int ActorsArray = 0x98; //Engine.Level
+        public const int OwningGameInstance = 0x1B8; //Engine.World
+        public const int LocalPlayers = 0x38; //Engine.GameInstance
+        public const int PlayerController = 0x30; //Engine.Player
+        public const int PlayerCameraManager = 0x350; //Engine.PlayerController
+                                                      //public const int PlayerMinimalViewInfo = 0x22B0;
+        public const int PlayerMinimalViewInfo = 0x1320; //Engine.PlayerCameraManager CameraCachePrivate
+        public const int PlayerHUD = 0x348; //Engine.PlayerController
         public const int NameIndex = 0x18; //uObject
         public const int ComponentToWorld = 0x240;
-        public const int Instigator = 0x188;
-        //public const int isOpen = 0x3F0;
-        //public const int isHidden = 0x40C;
+        public const int Instigator = 0x188; //Engine.Actor
+                                             //public const int isOpen = 0x3F0;
+                                             //public const int isHidden = 0x40C;
         [StructLayout(LayoutKind.Explicit)]
         public struct ActorStatus
         {
@@ -38,8 +38,8 @@ namespace DMAW_DND
 
         public class PlayerState
         {
-            public const int PlayerPawnPrivate = 0x310;
-            public const int PlayerNamePrivate = 0x388;
+            public const int PlayerPawnPrivate = 0x310; //Engine.PlayerState
+            public const int PlayerNamePrivate = 0x330; //Engine.PlayerState
         }
         public class PawnPrivate
         {
