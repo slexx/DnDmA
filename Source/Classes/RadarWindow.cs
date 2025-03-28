@@ -81,96 +81,6 @@ namespace DMAW_DND
 
         public int selectedMonitorIndex = 0;
 
-        private Thread espRenderThread;
-        private bool isEspRunning = true;
-
-
-        private void RenderEspContent()
-        {
-            if (Memory.InGame && Memory.GameStatus == Enums.GameStatus.InGame)
-            {
-                // Read camera information.
-                var localPlayerCameraManager = Memory.ReadPtr(Memory.game.PlayerController + Offsets.PlayerCameraManager);
-                var localPlayerMinimalViewInfo = Memory.ReadValue<MinimalViewInfo>(localPlayerCameraManager + Offsets.PlayerMinimalViewInfo + 0x10);
-
-                // Loop through all players (or enemies) and draw their ESP overlays.
-                foreach (var player in Memory.Players)
-                {
-                    if (player.Value.Bones is not null && player.Value.Type != PlayerType.LocalPlayer)
-                    {
-                        foreach (var (boneFrom, boneTo) in Enums.BoneConnections)
-                        {
-                            var bone1 = player.Value.Bones.FirstOrDefault(b => b.Key == (int)boneFrom).Value.Transform;
-                            var bone2 = player.Value.Bones.FirstOrDefault(b => b.Key == (int)boneTo).Value.Transform;
-
-                            Matrix4x4 matrix1 = FTransform.MatrixMultiplication(bone1.ToMatrixWithScale(), player.Value.CompToWorld.ToMatrixWithScale());
-                            var bonePos1 = new FVector3((float)matrix1.M41, (float)matrix1.M42, (float)matrix1.M43);
-                            var boneScreenPos1 = EspWindow.WorldToScreen(bonePos1, localPlayerMinimalViewInfo, espWindow.ClientSize.X, espWindow.ClientSize.Y);
-
-                            Matrix4x4 matrix2 = FTransform.MatrixMultiplication(bone2.ToMatrixWithScale(), player.Value.CompToWorld.ToMatrixWithScale());
-                            var bonePos2 = new FVector3((float)matrix2.M41, (float)matrix2.M42, (float)matrix2.M43);
-                            var boneScreenPos2 = EspWindow.WorldToScreen(bonePos2, localPlayerMinimalViewInfo, espWindow.ClientSize.X, espWindow.ClientSize.Y);
-
-                            Vector2 pos1 = new Vector2((float)boneScreenPos1.X, (float)boneScreenPos1.Y);
-                            Vector2 pos2 = new Vector2((float)boneScreenPos2.X, (float)boneScreenPos2.Y);
-
-                            ImGui.GetBackgroundDrawList().AddLine(pos1, pos2, ImGui.GetColorU32(new Vector4(1f, 1f, 1f, 1f)), 1f);
-                        }
-                    }
-                }
-            }
-        }
-
-
-        private void StartEspRenderThread()
-        {
-            espRenderThread = new Thread(() =>
-            {
-                // Make sure the ESP window's OpenGL context is current on this thread.
-                espWindow.MakeCurrent();
-                // Set target frame time in milliseconds (e.g., 16ms for ~60 FPS)
-                const double targetFrameTimeMs = 16.0;
-                Stopwatch frameTimer = new Stopwatch();
-
-                while (isEspRunning && !espWindow.IsExiting)
-                {
-                    frameTimer.Restart();
-
-                    // Clear and render the ESP content.
-                    GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-                    GL.ClearColor(Color4.Black);
-
-                    // Update ImGui controller with delta time.
-                    float deltaTime = (float)(frameTimer.Elapsed.TotalSeconds);
-                    espController.Update(espWindow, deltaTime);
-
-                    // Render your ESP-specific content.
-                    RenderEspContent();
-
-                    // Render ImGui and swap buffers.
-                    espController.Render();
-                    espWindow.SwapBuffers();
-                    espWindow.ProcessEvents(0);
-
-                    // Calculate how long the frame took.
-                    double frameTime = frameTimer.Elapsed.TotalMilliseconds;
-                    double sleepTime = targetFrameTimeMs - frameTime;
-
-                    // Sleep for the remainder of the frame if needed.
-                    if (sleepTime > 0)
-                    {
-                        Thread.Sleep((int)sleepTime);
-                    }
-                }
-            });
-
-            // Optionally set a higher priority if needed.
-            espRenderThread.Priority = ThreadPriority.AboveNormal;
-            espRenderThread.IsBackground = true;
-            espRenderThread.Start();
-        }
-
-
         public RadarWindow() : base(GameWindowSettings.Default, new NativeWindowSettings
         {
             ClientSize = new OpenTK.Mathematics.Vector2i(1920, 1080),
@@ -246,7 +156,7 @@ namespace DMAW_DND
             ImGuiController.CheckGLError("End of frame");
             this.Context.SwapBuffers();
             this.frameTime = stopWatchMilliseconds.Result();
-            //RenderEspWindow();
+            RenderEspWindow();
         }
 
         private void RenderEspWindow()
@@ -871,12 +781,6 @@ namespace DMAW_DND
                     espFrameSW.Start();
 
                     GLFW.SetWindowAttrib(espWindow.WindowPtr, WindowAttribute.Floating, true);
-
-                    // *** Release the context on the main thread ***
-                    GLFW.MakeContextCurrent(null);
-
-                    // Start the ESP render thread.
-                    StartEspRenderThread();
                 }
                 else
                 {

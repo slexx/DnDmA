@@ -32,9 +32,11 @@ namespace DMAW_DND
             GLFW.GetMonitorWorkarea(monitor, out int x, out int y, out int width, out int height);
             GLFW.SetWindowMonitor(this.WindowPtr, monitor, 0, 0, width, height, 60);
 
-            //IntPtr hWnd = GLFW.GetWin32Window(this.WindowPtr);
+            // 1. Get the Win32 window handle (HWND) from the GLFW pointer:
+            IntPtr hWnd = GLFW.GetWin32Window(this.WindowPtr);
 
-            //WindowHelper.SetUnfocusedStyles(hWnd);
+            // 2. Apply extended window styles:
+            WindowHelper.SetUnfocusedStyles(hWnd);
         }
 
         public static FVector2 WorldToScreen(FVector3 worldPos, MinimalViewInfo cameraCache, int screenWidth, int screenHeight)
