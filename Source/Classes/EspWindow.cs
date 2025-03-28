@@ -19,7 +19,7 @@ namespace DMAW_DND
             APIVersion = new Version(4, 4),
             WindowState = WindowState.Normal,
             Title = "ESP",
-            Flags = ContextFlags.Offscreen,
+            //Flags = ContextFlags.Offscreen,
             Vsync = VSyncMode.Off
         })
         {
