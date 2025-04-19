@@ -11,8 +11,8 @@ namespace DMAW_DND
 {
     internal static class Offsets
     {
-        public const int GWorld = 0x9D0B7D8; //updated
-        public const int GNames = 0x9AF45C0; //updated
+        public const int GWorld = 0x9D1EC18; //updated
+        public const int GNames = 0x9B07A00; //updated
         public const int GameStateBase = 0x158; //Engine.World
         public const int PlayerArray = 0x2B0; //Engine.GameStateBase
         public const int LevelsArray = 0x170;  //Engine.World
